@@ -1,0 +1,20 @@
+digraph free1 {
+
+	node [shape=record, style=filled group=""]
+
+	rankdir=LR
+	subgraph cluster_1 {
+		label="Heap Info" 
+		h [label="<f0>0x10000\n0x10000|<f1>0x40000\n0x18000|<f2>0x80000\n0x20000|0x0000\n0x0000|...|<a>|<a>"]
+		// [style=none]
+	};
+	
+	subgraph cluster_2 {
+		label="Memory"
+		m [label="<f0>|<f1>|<f2>|<f3>|<f4>|" ]
+	}
+	
+	h:f0->m:f0
+	h:f1->m:f2
+	h:f2->m:f4
+}
