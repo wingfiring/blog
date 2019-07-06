@@ -1,0 +1,110 @@
+digraph g {
+    //graph[pad="0.9", nodesep="0.3",ranksep="-0.1", compound=true]
+    graph [labelloc="t" label="C++ Type Hierarchy"
+        fontsize=30 fontname="Verdana" 
+        nodesep="0.3" pad="0.9"
+        compound=true rankdir=BT];
+    
+    
+
+    subgraph cluster_floating {
+        label=""
+        double
+        float
+        "long double"
+
+        double->float->"long double"[style=invis]
+   }
+
+    floating_point -> double [lhead=cluster_floating];
+    
+    subgraph cluster_integral {
+        label=""
+        bool
+        char
+        "signed char"
+        "unsigned char"
+        wchar_t
+        short
+        "unsigned short"
+        int
+        "unsigned int"
+        long
+        "unsigned long"
+        "long long"
+        "unsigned long long"
+        "extended\nunsigned integer"
+        "extended\nsigned integer"
+        
+        char16_t
+        char32_t
+
+        { rank=same char "signed char" "unsigned char" wchar_t char16_t}
+        { rank=same short "unsigned short" int "unsigned int" char32_t}
+        { rank=same long "unsigned long" "long long" "unsigned long long"}
+        { rank=same bool "extended\nunsigned integer" "extended\nsigned integer"}
+
+        char->short [style=invis]
+        short->long [style=invis]
+        long->bool [style=invis]
+    }
+
+    integral -> "signed char" [lhead=cluster_integral];
+    
+    arithmetic -> floating_point
+    arithmetic -> integral
+    arithmetic[style=filled fillcolor=yellow]
+
+    fundamental->void
+    fundamental->arithmetic
+    fundamental->nullptr_t
+    fundamental[style=filled fillcolor=yellow]
+
+    scalar->arithmetic
+    scalar->nullptr_t
+    scalar->"member pointer"
+    scalar->pointer
+    scalar->enum
+    scalar[style=filled fillcolor=yellow]
+
+    "member pointer" -> "member\nobject\npointer"
+    "member pointer" -> "member\nfunction\npointer"
+    "member pointer"[style=filled fillcolor=yellow]
+
+    object->scalar
+    object->array
+    object->union
+    object->class
+    object[style=filled fillcolor=yellow]
+
+    reference->"lvalue reference"
+    reference->"rvalue reference"
+    reference[style=filled fillcolor=yellow]
+
+    compound->"member pointer"
+    compound->pointer
+    compound->enum
+    compound->array
+    compound->union
+    compound->class
+    compound->function
+    compound->reference
+    compound[style=filled fillcolor=yellow]
+
+    compound->object[style=invis]
+    scalar->fundamental[style=invis]
+    //enum->"member pointer"[style=invis]
+    
+    subgraph cluster_legend {
+        L1[label="primary type\ncategory"]
+        L2[label="composite type\ncategory" style=filled fillcolor=yellow]
+        L2->L1[style=invis]
+
+        style=invis
+    }
+
+    subgraph S{
+        {rank=max L2 }
+    }
+    
+}

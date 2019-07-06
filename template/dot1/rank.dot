@@ -1,6 +1,6 @@
 digraph R {
 
-  node [shape=record];
+  node [shape=circel];
 
   { rank=same rA sA tA }
   { rank=same uB vB wB }
