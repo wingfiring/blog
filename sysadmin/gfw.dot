@@ -1,0 +1,37 @@
+digraph g {
+    node [shape="box"]
+    //graph[pad="0.9", nodesep="0.3",ranksep="-0.1", compound=true]
+    graph [labelloc="t" label=""
+        fontsize=30 fontname="Verdana"
+        nodesep="0.3" pad="0.9"
+        compound=true ];
+
+    subgraph cluster_lan {
+        label=""
+        lan -> gw1
+        lan -> gw2
+    }
+
+    subgraph cluster_client {
+        label="Client"
+        Openvpn_client[label="Openvpn"]
+        Kcptun_client[label="Kcptun"]
+        Udp2raw_client[label="Udp2raw"]
+        gw2->Openvpn_client->Kcptun_client->Udp2raw_client
+    }
+
+    subgraph cluster_server {
+        label="Server"
+        Openvpn_server[label="Openvpn"]
+        Kcptun_server[label="Kcptun"]
+        Udp2raw_server[label="Udp2raw"]
+        Udp2raw_client->Udp2raw_server
+        Udp2raw_server->Kcptun_server->Openvpn_server
+        Openvpn_server-> Nat
+    }
+    { rank=same Openvpn_client Openvpn_server}
+    { rank=same Kcptun_client Kcptun_server}
+    { rank=same Udp2raw_client Udp2raw_server}
+    { rank=same Openvpn_client Openvpn_server}
+    { rank=same Nat gw2}
+}
