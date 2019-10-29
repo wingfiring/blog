@@ -19,3 +19,17 @@
 
   `mknod -m 666 /dev/fuse c 10 229`  
   在lxc的config中也许可以指定创建，但是我觉得不应该采用bind选项, 这里只是想独立地mount到管理容器中，而不想干扰host机器。
+
+- enca修改文本文件内容编码
+  - 检测编码：`enca -L zh_CN file`
+  - 转换编码: `enca -L zh_CN -x UTF-8 file`
+  - `iconv -f GB2312 -t UTF-8` 可以强行转，但是如果遇到输入的编码有错误则会中止。
+  - convmv 用于转换文件名
+
+- 转换音频文件格式和tag编码
+
+  如从ape转换成flac. soxi可用来检测文件tags，要检测mp3，可以`apt install libsox-fmt-mp3`
+
+  soxi在显示文本信息时，总是强行做了一次UTF-8，可以用`id3v2 -l`查看真实信息。id3v2有时获取不到所有tag，exiftool更好。
+  
+  `mid3iconv -e GB2312` 可以将tag内容从GB2312编码转成UTF-8.还可以通过参数`-d`查看所转的内容。
