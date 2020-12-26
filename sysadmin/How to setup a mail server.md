@@ -55,7 +55,9 @@
 SPF记录用于帮助反邮件欺骗. SPF记录说明了本域的外发邮件ip地址,接收邮件的服务器可以根据邮件头的域名查询是否
 从SPF列举的ip发出的,如果不是,就拒绝.
 
-`example.com 86400 TXT "v=spf1 a ~all"`
+`example.com 86400 TXT "v=spf1 mx ~all"`
+
+SPF 的规范,参考 <http://www.open-spf.org/SPF_Record_Syntax/>
 
 #### 反向DNS
 
@@ -375,8 +377,6 @@ disable_plaintext_auth = yes
 ...
 auth_mechanisms = plain login
 ...
-!include auth-system.conf.ext
-...
 !include auth-sql.conf.ext
 ...
 ```
@@ -388,4 +388,8 @@ auth_mechanisms = plain login
 ```
 
 ```config.dovecot
+```
+
+```
+apt-get install opendkim opendkim-tools postfix-policyd-spf-python postfix-pcre
 ```
